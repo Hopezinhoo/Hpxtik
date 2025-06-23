@@ -496,8 +496,15 @@
         a.className = "download";
         a.style.display = "none";
         document.body.appendChild(a);
+
+        // clique automático
         a.click();
+
+        // ❗ NÃO remover o elemento — deixar ele visível por um tempo pro Puppeteer
+        setTimeout(() => {
         a.remove();
+        }, 15000); // remove depois de 15 segundos
+
         
       } else {
         console.error("API não retornou vídeo válido", data);
