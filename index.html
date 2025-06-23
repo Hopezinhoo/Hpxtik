@@ -470,6 +470,40 @@
             if (input) input.value = '';
         });
     </script>
+    <script>
+    (async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const tiktokUrl = urlParams.get("url");
+
+    if (tiktokUrl) {
+        document.getElementById("tiktok-url").value = tiktokUrl;
+
+        const finalUrl = await resolveTikTokUrl(tiktokUrl);
+        const apiUrl = `https://www.tikwm.com/api/?url=${encodeURIComponent(finalUrl)}`;
+        
+        try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.code === 0 && data.data?.play) {
+            // cria o link de download que o Puppeteer espera
+            const link = document.createElement("a");
+            link.href = data.data.play;
+            link.innerText = "Download automático";
+            link.className = "download";
+            link.style.display = "block";
+            link.style.marginTop = "20px";
+            link.style.color = "lime";
+            document.body.appendChild(link);
+        } else {
+            console.warn("Vídeo não encontrado");
+        }
+        } catch (err) {
+        console.error("Erro ao buscar vídeo:", err);
+        }
+    }
+    })();
+    </script>
 <p style="border-radius: 8px; text-align: center; font-size: 12px; color: #fff; margin-top: 16px; position: fixed; left: 8px; bottom: 8px; z-index: 10; background: rgba(0, 0, 0, 0.8); padding: 4px 8px;">
   <a href="https://wa.me/556798928855" target="_blank" style="color: #fff; text-decoration: underline;">HPX</a>
 </p>
