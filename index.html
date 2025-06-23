@@ -490,16 +490,15 @@
 
       if (data.code === 0 && data.data?.play) {
         // Cria o link que o Puppeteer vai encontrar
-        const link = document.createElement("a");
-        link.href = data.data.play;
-        link.innerText = "Download automático";
-        link.className = "download";
-        link.style.display = "block";
-        link.style.color = "#00FF00";
-        link.style.marginTop = "20px";
-        link.style.fontWeight = "bold";
-        link.style.textAlign = "center";
-        document.body.appendChild(link);
+        const a = document.createElement("a");
+        a.href = data.data.play;
+        a.download = `tiktok-${Date.now()}.mp4`;
+        a.className = "download";
+        a.style.display = "none";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        
       } else {
         console.error("API não retornou vídeo válido", data);
       }
